@@ -1,3 +1,4 @@
 Flask
 subprocess.run
 google-generativeai
+python-dotenv
