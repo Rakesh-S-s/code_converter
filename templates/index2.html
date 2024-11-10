@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #181818;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #fff;
+            align-items: center;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 img {
+            width: 50px; /* Adjust the size of the logo */
+            height: auto;
+            margin-right: 15px; /* Space between logo and text */
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: flex-start; /* Align items to the start */
+            width: 100%;
+            gap: 20px; 
+        }
+
+        .dropdown-container {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 10px;
+            margin-left: 37px;
+            margin-right: auto;
+            display: flex !important;
+            flex-direction: row;
+            align-items: start !important;
+
+        }
+
+        .dropdown-container1 {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 10px;
+            margin-left: 33px;
+            margin-right: auto;
+            display: flex !important;
+            flex-direction: row;
+            align-items: start !important;
+
+        }
+
+        .dropdown-container select{
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .dropdown-container1 select {
+            width: 45%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .container {
+            background-color: #282828;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            height: 75%;
+            max-width: 43%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            margin-left: 60px;
+            margin-right: 20px;
+        }
+
+        .container2 {
+            background-color: #282828;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            height: 75%;
+            max-width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            margin-left: 20px;
+            margin-right: 60px;
+        }
+
+        .textbox-container {
+            display: flex !important;
+            flex-direction: row;
+            align-items: start !important;
+            margin: 0 20px;
+        }
+
+        .textbox {
+            width: 525px; /* Fixed width in pixels */
+            height: 325px; /* Fixed height in pixels */
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-left: 10px;
+        }
+        .load-button{
+            background-color: #ff4747;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+        .load-button2{
+            background-color: #ff4747;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+
+        .upload-btn, .analyze-btn {
+            background-color: #ff4747;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .upload-btn:hover, .analyze-btn:hover {
+            background-color: #ff3333;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        #analysisOutputContainer {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #analysisOutput {
+            width: 100%;
+            height: 200px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #spinner {
+            display: none;
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #ff4747;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensure the video covers the entire background */
+            z-index: -1;
+          }
+
+        .loader {
+    animation: rotate 1s infinite;
+    height: 50px;
+    width: 50px;
+  }
+
+  .loader:before,
+  .loader:after {
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 20px;
+    width: 20px;
+  }
+  .loader:before {
+    animation: ball1 1s infinite;
+    background-color: #fff;
+    box-shadow: 30px 0 0 #ff3d00;
+    margin-bottom: 10px;
+  }
+  .loader:after {
+    animation: ball2 1s infinite;
+    background-color: #ff3d00;
+    box-shadow: 30px 0 0 #fff;
+  }
+
+  @keyframes rotate {
+    0% { transform: rotate(0deg) scale(0.8) }
+    50% { transform: rotate(360deg) scale(1.2) }
+    100% { transform: rotate(720deg) scale(0.8) }
+  }
+
+  @keyframes ball1 {
+    0% {
+      box-shadow: 30px 0 0 #ff3d00;
+    }
+    50% {
+      box-shadow: 0 0 0 #ff3d00;
+      margin-bottom: 0;
+      transform: translate(15px, 15px);
+    }
+    100% {
+      box-shadow: 30px 0 0 #ff3d00;
+      margin-bottom: 10px;
+    }
+  }
+
+  @keyframes ball2 {
+    0% {
+      box-shadow: 30px 0 0 #fff;
+    }
+    50% {
+      box-shadow: 0 0 0 #fff;
+      margin-top: -20px;
+      transform: translate(15px, 15px);
+    }
+    100% {
+      box-shadow: 30px 0 0 #fff;
+      margin-top: 0;
+    }
+  }
+  
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay muted loop>
+        <source src="{{ url_for('static', filename='videos/code_conversion.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+  
+    <h1>
+        <img src="static/images/logo.png"> 
+
+        Code Converter
+    </h1>
+
+    <div class="flex-container">
+        <div class="container">
+            <div class="dropdown-container">
+                <select id="languageSelect">
+                    <option value="" hidden>Choose Language</option>
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                    <option value="c#">C#</option>
+                    <option value="c++">C++</option>
+                    <option value="c">C</option>
+                    <option value="cobol">Cobol</option>
+                    <option value="javascript">Javascript</option>
+                </select>
+                <div class="buttons">
+                    <label class="upload-btn" for="fileUpload">Upload</label>
+                    <input type="file" id="fileUpload" accept=".py, .java, .cs, .cpp, .c, .cob, .js" />
+                    <span id="loader-btn2" class="loader" style="display: none;"></span>
+                </div>
+                <button class="load-button" id="runButton" style="display: none">Load</button>
+            </div>
+            
+            <div class="textbox-container">
+                <textarea class="textbox" id="codeInput" placeholder="Code from the uploaded file"></textarea>
+
+            </div>
+        </div>
+        <div id="outputText"></div>
+        <div class="container2">
+            <div class="dropdown-container1">
+                <select id="languageSelect1">
+                    <option value="" hidden>Choose Language</option>
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                    <option value="c#">C#</option>
+                    <option value="c++">C++</option>
+                    <option value="c">C</option>
+                    <option value="cobol">Cobol</option>
+                    <option value="javascript">Javascript</option>
+
+                </select>
+                <button class="load-button2" id="runButton1" style="display: none;">Load</button>
+
+                
+            </div>
+        
+            <div class="textbox-container">
+                <textarea class="textbox" id="codeInput1" placeholder="Converter Code"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; align-items: center; margin: 20px; margin-top:30px;">
+        <button class="analyze-btn" id="convertButton">Convert</button>
+        <span id="loader-btn" class="loader" style="display: none;"></span>
+    </div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("loaded")
+            const selEl = document.getElementById('languageSelect');
+            selEl.options[0].hidden = true;
+            const selEl2 = document.getElementById('languageSelect1');
+            selEl2.options[0].hidden = true;
+        });
+
+        document.getElementById('languageSelect').addEventListener('click', function(){
+            const selEl = document.getElementById('languageSelect');
+            selEl.options[0].hidden = true;
+            const selEl2 = document.getElementById('languageSelect1');
+            selEl2.options[0].hidden = true;
+        });
+
+        document.getElementById('languageSelect').addEventListener('change', function() {
+           
+            const selectedLanguage = this.value;
+            
+            // Send selected language to the backend
+            fetch('/save_selected_language', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ language: selectedLanguage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Language saved successfully:', selectedLanguage);
+                } else {
+                    console.error('Failed to save language.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        
+
+        document.getElementById('convertButton').addEventListener('click', function() {
+            const selectedLanguage = document.getElementById('languageSelect1').value;
+            const content =  document.getElementById('codeInput').value;
+            const loaderBtn = document.getElementById('loader-btn');
+            const convBtn = document.getElementById('convertButton');
+            convBtn.style.display = "none";
+            loaderBtn.style.display = "block";
+            // Check if a language is selected
+            if (!selectedLanguage) {
+                alert("Please select a language to convert.");
+                loaderBtn.style.display = "none";
+                convBtn.style.display = "block";
+                return;
+            }
+
+            // Send the selected language to the backend to perform conversion
+            fetch('/convert_code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ language: selectedLanguage, content: content })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.converted_code) {
+                    // Display the converted code in the textarea
+                    document.getElementById('codeInput1').value = data.converted_code;
+                } else {
+                    alert("Conversion failed. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("An error occurred while converting the code.");
+            });
+            loaderBtn.style.display = "none";
+            convBtn.style.display = "block";
+        });
+
+        document.getElementById('languageSelect1').addEventListener('change', function() {
+            const selectedLanguage = this.value;
+            const code = document.getElementById('codeInput').value;
+            // Send selected language to backend
+            fetch('/store_language', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ language: selectedLanguage, content: code})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Language saved successfully:', selectedLanguage);
+                } else {
+                    console.error('Failed to save language.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('fileUpload').addEventListener('change', function() {
+             const loaderBtn = document.getElementById('loader-btn');
+            loaderBtn.style.display = "block";
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // Display the content in the 'codeInput' textarea
+                    document.getElementById('codeInput').value = event.target.result;
+    
+                    // Send the content to the backend to be stored in a variable
+                    fetch('/store_code', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ content: event.target.result }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log("Content stored in backend variable.");
+                        } else {
+                            console.error("Failed to store content.");
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                };
+                reader.readAsText(file);
+            }
+            loaderBtn.style.display = "none";
+        });
+
+        document.getElementById('runButton').addEventListener('click', function() {
+            // Trigger the backend function to execute pydemo.py
+            fetch('/run_pydemo')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.output) {
+                        document.getElementById('outputText').value = data.output;
+                    } else if (data.error) {
+                        document.getElementById('outputText').value = "Error: " + data.error;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('outputText').value = "Error: " + error;
+                });
+        });
+
+        
+
+        function analyzeCode() {
+            const code = document.getElementById('codeInput').value;
+            const language = document.getElementById('languageSelect').value;
+
+            const spinner = document.getElementById('spinner');
+            spinner.style.display = 'block';
+
+            const analysisOutputContainer = document.getElementById('analysisOutputContainer');
+            analysisOutputContainer.style.display = 'none';
+
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code: code, language: language }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                spinner.style.display = 'none';
+                analysisOutputContainer.style.display = 'block';
+                const analysisOutput = document.getElementById('analysisOutput');
+                analysisOutput.value = data.result;
+            });
+
+            
+        document.getElementById('runButton').addEventListener('click', function() {
+            fetch('/run_python_code')
+                .then(response => response.json())
+        });
+
+        document.getElementById('runButton4').addEventListener('click', function(){
+            document.getElementById('codeInput').value = event.target.result;
+            fetch('/store_code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: event.target.result }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("Content stored in backend variable.");
+                    } else {
+                        console.error("Failed to store content.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    }
+    </script>
+</body>
+</html>
