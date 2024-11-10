@@ -5,8 +5,6 @@ import subprocess
 from dotenv import load_dotenv
 
 load_dotenv()
-#GEMINI API
-# genai.configure(api_key="AIzaSyCGbmQPkW458fQbbB7dfATHfynVHrrVgzQ")
 genai.configure(api_key=os.getenv('API_KEY'))
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
