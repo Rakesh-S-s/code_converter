@@ -1,1 +1,2 @@
-System.out.println("Hello Rakesh");
+int var = 34;
+System.out.println(var);
