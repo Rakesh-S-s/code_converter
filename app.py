@@ -130,7 +130,7 @@ def converter(selected_language, content):
     # print("Path broooooooooooooooooo:",path)
     # print("Uploaded code broooooooooooo",content)
     print("COnversion staredd broooo    ")
-    prompt=f"You are a code converter, your job is to convert the code from one language to another as per the specification. Convert the below given code from {language} to {selected_language}. Code: {content}.NOTE: REmove the addition description and provide only the code.IMPORTANT: Don't even generate which language it is getting converted to."
+    prompt=f"You are a code converter, your job is to convert the code from one language to another as per the specification. Convert the below given code from {language} to {selected_language}. Code: {content}.NOTE: REmove the addition description and provide only the code.IMPORTANT: Don't even generate which language it is getting converted to. IMPORTANT: You must add the HEADER to the converted code"
     response = model.generate_content(prompt)
     print("conversion end brooooo")
     # converted_code=response.text
