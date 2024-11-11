@@ -1,2 +1,5 @@
-int var = 34;
-System.out.println(var);
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello world");
+    }
+}
