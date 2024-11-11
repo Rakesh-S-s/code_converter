@@ -353,7 +353,6 @@
         <button class="analyze-btn" id="convertButton">Convert</button>
         <span id="loader-btn" class="loader" style="display: none;"></span>
     </div>
-
     <script>
         
         document.addEventListener('DOMContentLoaded', function() {
@@ -422,8 +421,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.converted_code) {
-                    // Display the converted code in the textarea
-                    document.getElementById('codeInput1').value = data.converted_code;
+                    let cleanedCode = data.converted_code.replace(/^```[a-z]*\n?|```$/gi, '');
+                    document.getElementById('codeInput1').value =  cleanedCode;
                 } else {
                     alert("Conversion failed. Please try again.");
                 }
