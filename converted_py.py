@@ -1,2 +1,1 @@
-var = 43
-print(var)
+print("Hello world")

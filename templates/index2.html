@@ -420,7 +420,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.converted_code) {
-                    let cleanedCode = data.converted_code.replace(/^```[a-z]*\n?|```$/gi, '');
+                    let cleanedCode = data.converted_code.replace(/^```[a-z]*\n?|```$/gi, '').replaceAll("```","");
                     document.getElementById('codeInput1').value =  cleanedCode;
                 } else {
                     alert("Conversion failed. Please try again.");
